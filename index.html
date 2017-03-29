@@ -3,7 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
+    <script type="text/javascript">
+        <%= compilation.assets[htmlWebpackPlugin.files.chunks.main.entry.substr(htmlWebpackPlugin.files.publicPath.length)].source() %>
+    </script>
 </head>
 <body>
     <%= htmlWebpackPlugin.options.date %>
@@ -19,6 +21,10 @@
     <!--<% for(var key in htmlWebpackPlugin.options){ %>
     <%= key %> : <%= JSON.stringify(htmlWebpackPlugin.options[key]) %>
     <% } %>-->
-    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks.a.entry %>"></script>
+    <% for (var k in htmlWebpackPlugin.files.chunks) { %>
+        <% if (k != 'main') {  %>
+            <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[k].entry %>"></script>
+        <% } %>
+    <% } %>
 </body>
 </html>
